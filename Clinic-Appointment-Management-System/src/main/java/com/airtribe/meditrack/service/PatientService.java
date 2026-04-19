@@ -1,7 +1,7 @@
 package com.airtribe.meditrack.service;
-import com.airtribe.meditrack.entity.Doctor;
 import com.airtribe.meditrack.entity.Patient;
 import com.airtribe.meditrack.util.DataStore;
+import com.airtribe.meditrack.util.IdGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,7 @@ public class PatientService {
 
 
     /**
+     * Polymorphism Method overriding
      * Search by Id
      * @param id
      * @return
@@ -50,6 +51,7 @@ public class PatientService {
     }
 
     /**
+     * Polymorphism Method overriding
      * Search by Name
      * @param name
      * @return
@@ -65,6 +67,7 @@ public class PatientService {
     }
 
     /**
+     * Polymorphism Method overriding
      * Search by Age
      * @param age
      * @param gender
