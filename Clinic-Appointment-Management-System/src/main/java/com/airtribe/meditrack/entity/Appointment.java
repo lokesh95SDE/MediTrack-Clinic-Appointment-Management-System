@@ -38,6 +38,10 @@ public class Appointment implements Cloneable{
         return status;
     }
 
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
+
     public int getId() {
         return id;
     }
