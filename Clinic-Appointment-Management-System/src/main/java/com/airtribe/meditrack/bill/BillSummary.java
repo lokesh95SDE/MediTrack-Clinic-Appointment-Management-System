@@ -1,6 +1,6 @@
 package com.airtribe.meditrack.bill;
 
-public record BillSummary(int billId, double subTotal, double tax, double total) {
+public record BillSummary(int billId, double subTotal, double tax, int total) {
 
     public void printSummary(){
         System.out.println("----- BILL SUMMARY -----");

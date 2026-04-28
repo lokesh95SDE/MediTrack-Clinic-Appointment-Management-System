@@ -21,4 +21,5 @@ public class Doctor extends Person{
         this.specialisation = specialisation;
     }
 
+
 }

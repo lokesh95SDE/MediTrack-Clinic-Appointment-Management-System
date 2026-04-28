@@ -1,10 +1,18 @@
 package com.airtribe.meditrack.util;
 
+import com.sun.source.tree.SynchronizedTree;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class IdGenerator {
+    /**
+     * Singleton IdGenerator created instance to use only onc instance throughout the application
+     * Used AtomicInteger for thread safe
+     */
     private static IdGenerator instance = new IdGenerator();
-    private AtomicInteger counter = new AtomicInteger(1);
+    private Map<String,AtomicInteger> counters = new HashMap<>();
 
     private IdGenerator() {}
 
@@ -12,7 +20,8 @@ public class IdGenerator {
         return instance;
     }
 
-    public int generateId() {
-        return counter.getAndIncrement();
+    public synchronized int generateId(String entityName) {
+        counters.putIfAbsent(entityName, new AtomicInteger(1));
+        return counters.get(entityName).getAndIncrement();
     }
 }

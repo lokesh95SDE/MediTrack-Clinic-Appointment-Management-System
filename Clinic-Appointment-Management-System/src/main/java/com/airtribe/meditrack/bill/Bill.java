@@ -1,70 +1,39 @@
 package com.airtribe.meditrack.bill;
 
-import com.airtribe.meditrack.contants.Constants;
+import com.airtribe.meditrack.Interface.BillingStrategy;
+import com.airtribe.meditrack.Interface.Payable;
 import com.airtribe.meditrack.entity.Doctor;
 import com.airtribe.meditrack.entity.Patient;
 
-public class Bill implements Payable{
+public class Bill implements Payable {
     private int billId;
     private Patient patient;
     private Doctor doctor;
     private double consultationFee;
     private double additionalCharges;
+    private BillingStrategy strategy;
 
-    public Bill(int billId, Patient patient, Doctor doctor, double consultationFee, double additionalCharges) {
+    public Bill(int billId, Patient patient, Doctor doctor, double consultationFee, double additionalCharges, BillingStrategy strategy ) {
         this.billId = billId;
         this.patient = patient;
         this.doctor = doctor;
         this.consultationFee = consultationFee;
         this.additionalCharges = additionalCharges;
+        this.strategy =strategy;
     }
 
-    public int getBillId() {
-        return billId;
-    }
-
-    public void setBillId(int billId) {
-        this.billId = billId;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
-    public double getConsultationFee() {
-        return consultationFee;
-    }
-
-    public void setConsultationFee(double consultationFee) {
-        this.consultationFee = consultationFee;
-    }
-
-    public double getAdditionalCharges() {
-        return additionalCharges;
-    }
-
-    public void setAdditionalCharges(double additionalCharges) {
-        this.additionalCharges = additionalCharges;
-    }
-
+    /**
+     * Here we do Type casting + Strategy pattern calling
+     * @return
+     */
     @Override
-    public BillSummary GenerateBill() {
-        double subTotal = consultationFee+additionalCharges;
-        double tax = subTotal * Constants.TAX_RATE;
-        double total = tax + subTotal;
-        return new BillSummary(billId, subTotal,tax, total);
+    public BillSummary generateBill() {
+        double consultationFee = doctor.getConsultationFees();
+        double subtotal = consultationFee + additionalCharges;
+        double totalDouble = strategy.calculateTotal(consultationFee, additionalCharges);
+        int total = (int)totalDouble;
+        double tax = total - subtotal;
+        return new BillSummary(billId, subtotal,tax, total);
     }
 
 }

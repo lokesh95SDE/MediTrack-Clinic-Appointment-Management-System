@@ -20,6 +20,10 @@ public class Person extends MedicalEntity{
         return age;
     }
 
+    @Override
+    public int getId(){
+        return id;
+    }
 
     @Override
     public void display() {

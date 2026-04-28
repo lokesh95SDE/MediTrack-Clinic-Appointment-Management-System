@@ -1,9 +1,11 @@
 package com.airtribe.meditrack.service;
 
 import com.airtribe.meditrack.entity.Doctor;
+import com.airtribe.meditrack.enums.Entities;
+import com.airtribe.meditrack.enums.Specialization;
 import com.airtribe.meditrack.exception.InvalidDataException;
 import com.airtribe.meditrack.util.DataStore;
-import com.airtribe.meditrack.util.Validator;
+import com.airtribe.meditrack.util.IdGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +17,13 @@ public class DoctorService {
     /**
      * POST Doctor details
      *
-     * @param doctor
+     * @param
      * @throws InvalidDataException
      */
-    public void addDoctor(Doctor doctor) throws InvalidDataException {
-        Validator.validateName(doctor.getName());
-        Validator.validateAge(doctor.getAge());
-        doctorStore.add(doctor);
+    public void addDoctor(String name, int age, Specialization spec, double fee) {
+        int id = IdGenerator.getInstance().generateId(String.valueOf(Entities.DOCTOR));
+        Doctor d = new Doctor(name, age, id, spec, fee);
+        doctorStore.add(d);
     }
 
     /**
@@ -29,7 +31,7 @@ public class DoctorService {
      *
      * @return
      */
-    public List<Doctor> readDoctorList() {
+    public List<Doctor> getAllDoctors() {
         return doctorStore.getAll();
     }
 
@@ -40,6 +42,24 @@ public class DoctorService {
      */
     public void deleteDoctor(Doctor doctor) {
         doctorStore.remove(doctor);
+    }
+
+    public Doctor getDoctorDetails(String name){
+        for(Doctor doctor : doctorStore.getAll()){
+            if(doctor.getName().equalsIgnoreCase(name)){
+                return doctor;
+            }
+        }
+        return null;
+    }
+
+    public Doctor getDoctorDetails(int id){
+        for(Doctor doctor : doctorStore.getAll()){
+            if(doctor.getId() == id){
+                return doctor;
+            }
+        }
+        return null;
     }
 
     /**
@@ -55,5 +75,18 @@ public class DoctorService {
             }
         }
         return specialList;
+    }
+
+
+    public void viewAllDoctors() {
+        List<Doctor> doctors = getAllDoctors();
+        if (doctors.isEmpty()) {
+            System.out.println("No doctors registered yet.");
+            return;
+        }
+        System.out.println("\n--- All Doctors ---");
+        for (Doctor doctor : doctors) {
+            System.out.println("ID: " + doctor.getId() + ", Name: " + doctor.getName() + ", Age: " + doctor.getAge() + ", Specialization: " + doctor.getSpecialisation() + ", Fee: " + doctor.getConsultationFees());
+        }
     }
 }

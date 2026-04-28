@@ -1,18 +1,22 @@
 package com.airtribe.meditrack.entity;
 
+import com.airtribe.meditrack.Interface.Observer;
+import com.airtribe.meditrack.Interface.ObserverSubject;
 import com.airtribe.meditrack.enums.AppointmentStatus;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Appointment implements Cloneable{
+public class Appointment implements ObserverSubject, Cloneable{
 
     private int id;
     private Patient patient;
     private Doctor doctor;
     private AppointmentStatus status;
     private LocalDate date;
+
+    public List<Observer> observers = new ArrayList<>();
 
     public Appointment(int id, Patient patient, Doctor doctor, AppointmentStatus status, LocalDate date) {
         this.id = id;
@@ -31,6 +35,10 @@ public class Appointment implements Cloneable{
                 status,
                 date
                 );
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 
     public Patient getPatient() {
@@ -52,4 +60,32 @@ public class Appointment implements Cloneable{
     public int getId() {
         return id;
     }
+
+    @Override
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers(String message) {
+        for (Observer o : observers){
+            o.update(message);
+        }
+    }
+
+    public void confirmNotification() {
+        this.status = AppointmentStatus.CONFIRMED;
+        notifyObservers("Appointment CONFIRMED for " + patient.getName());
+    }
+
+    public void cancelNotification() {
+        this.status = AppointmentStatus.CANCELLED;
+        notifyObservers("Appointment CANCELLED for " + patient.getName());
+    }
+
 }

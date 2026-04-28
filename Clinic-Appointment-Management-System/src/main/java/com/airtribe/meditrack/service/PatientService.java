@@ -1,5 +1,6 @@
 package com.airtribe.meditrack.service;
 import com.airtribe.meditrack.entity.Patient;
+import com.airtribe.meditrack.enums.Entities;
 import com.airtribe.meditrack.util.DataStore;
 import com.airtribe.meditrack.util.IdGenerator;
 
@@ -12,9 +13,11 @@ public class PatientService {
 
     /**
      * POST Patient details
-     * @param p
+     * @param age name
      */
-    public void addPatient(Patient p) {
+    public void addPatient(String name, int age) {
+        int id = IdGenerator.getInstance().generateId(String.valueOf(Entities.PATIENT));
+        Patient p = new Patient(name, age, id);
         patientStore.add(p);
     }
 
@@ -22,8 +25,17 @@ public class PatientService {
      * Get Patient list
      * @return
      */
-    public List<Patient> readAllPatientList(){
+    public List<Patient> getAllPatients(){
         return patientStore.getAll();
+    }
+
+    public Patient getPatientDetails(String name){
+        for(Patient patient : patientStore.getAll()){
+            if(patient.getName().equalsIgnoreCase(name)){
+                return patient;
+            }
+        }
+        return null;
     }
 
     /**
@@ -56,14 +68,13 @@ public class PatientService {
      * @param name
      * @return
      */
-    public List<Patient> searchPatient(String name) {
-        List<Patient> nameList = new ArrayList<>();
+    public Patient searchPatient(String name) {
         for(Patient patient : patientStore.getAll()){
             if(patient.getName().equalsIgnoreCase(name)){
-                nameList.add(patient);
+                return patient;
             }
         }
-        return nameList;
+        return null;
     }
 
     /**
@@ -81,5 +92,17 @@ public class PatientService {
             }
         }
         return ageList;
+    }
+
+    public void viewAllPatients() {
+        List<Patient> patients = getAllPatients();
+        if (patients.isEmpty()) {
+            System.out.println("No patients registered yet.");
+            return;
+        }
+        System.out.println("\n--- All Patients ---");
+        for (Patient patient : patients) {
+            System.out.println("ID: " + patient.getId() + ", Name: " + patient.getName() + ", Age: " + patient.getAge());
+        }
     }
 }
