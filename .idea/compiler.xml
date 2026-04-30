@@ -6,10 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Clinic-Appointment-Management-System" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Clinic-Appointment-Management-System" target="23" />
       <module name="com.airtribe.meditrack" target="23" />
       <module name="MediTrack-Clinic-Appointment-Management-System" target="23" />
       <module name="MediTrack_Clinic-Appointment-Management-System" target="23" />
