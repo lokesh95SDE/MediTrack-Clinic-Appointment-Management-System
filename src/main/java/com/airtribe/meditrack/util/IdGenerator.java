@@ -1,7 +1,5 @@
 package com.airtribe.meditrack.util;
 
-import com.sun.source.tree.SynchronizedTree;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;

@@ -10,7 +10,6 @@ import com.airtribe.meditrack.bill.BillingStrategyFactory;
 import com.airtribe.meditrack.bill.Bill;
 import com.airtribe.meditrack.bill.BillSummary;
 import com.airtribe.meditrack.Interface.BillingStrategy;
-import com.airtribe.meditrack.exception.InvalidDataException;
 import com.airtribe.meditrack.exception.AppointmentNotFoundException;
 
 import java.time.LocalDate;
